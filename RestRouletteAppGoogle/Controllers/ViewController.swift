@@ -15,9 +15,10 @@ class ViewController: UIViewController {
     
     private var googleMapService = GoogleMapService()
     private var locationManager = CLLocationManager()
-//    private var myLatitude: CLLocationDegrees?
-//    private var myLongitude: CLLocationDegrees?
-    private var places: [Results]?
+    private var defaultLocation = CLLocation(latitude: 55.751999, longitude: 37.617734)
+    private var currentLatitude: CLLocationDegrees?
+    private var currentLongitude: CLLocationDegrees?
+    private var mapView: GMSMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,42 +26,33 @@ class ViewController: UIViewController {
         locationManager.delegate = self
         locationManager.distanceFilter = 50
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         
-//        self.myLatitude = locationManager.location?.coordinate.latitude
-//        self.myLongitude = locationManager.location?.coordinate.longitude
+        //создание дефолтной карты
+        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
+        self.mapView = GMSMapView.map(withFrame: self.view.bounds, camera: camera)
+        
+        //добавление кнопки локации и авторесайзинг карты
+        mapView.isMyLocationEnabled = true
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.settings.myLocationButton = true
+        mapView.delegate = self
+        
+        // добавление карты
+        view.addSubview(mapView)
+        mapView.isHidden = true
         
         print("viewdidload")
         
     }
    //поисковый запрос /*https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=59.93667,30.315&radius=200&rankby=prominence&sensor=true&key=AIzaSyDH_kKUEidg_Ao77O4s12j1UuYDjAh_Ezc&types=cafe*/
     
-    private func displayNearPlacesOnMap(lat: CLLocationDegrees, long: CLLocationDegrees){
-        //создание камеры и карты
-        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 14)
-        let mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
+    //получение мест по запросу и их передачча
+    func displayNearPlacesOnMap(lat: CLLocationDegrees, long: CLLocationDegrees, complition: @escaping ([Results]) -> Void) {
         
-        //добавление кнопки локации
-        mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true
-        
-        //создание маркеров и добавление их на карту
         getNearPlaceFromTime(lat: lat, long: long) { fetchedResults in
-            if fetchedResults.count >= 4{
-                for i in 0...4{
-                    
-                    let position = CLLocationCoordinate2D(latitude: fetchedResults[i].geometry.location.lat, longitude: fetchedResults[i].geometry.location.lng)
-                    
-                    let marker = GMSMarker(position: position)
-                    marker.title = fetchedResults[i].name
-                    marker.icon = GMSMarker.markerImage(with: .black)
-                    //marker.appearAnimation = GMSMarkerAnimation.pop
-                    marker.map = mapView
-                    print("\(fetchedResults[i].name)")
-                }
-            }
-            self.view.addSubview(mapView)
+            complition(fetchedResults)
         }
     }
     
@@ -74,7 +66,7 @@ class ViewController: UIViewController {
         
         print(hour)
         
-        //в зависимости от времени меняется тип места
+        //зависимость места от времени
         switch hour {
         case 7 ... 11:
             googleMapService.requestNearPlaces(latitude: lat, longitude: long, placeType: "cafe") { fetchedResults in
@@ -102,19 +94,55 @@ class ViewController: UIViewController {
     }
 }
 extension ViewController: CLLocationManagerDelegate{
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        guard status == .authorizedWhenInUse else{return}
-        locationManager.startUpdatingLocation()
+        guard status == .authorizedWhenInUse || status == .authorizedAlways else{return}
+        self.locationManager.startUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         
         //текущие координаты пользователя
-        if let myLatitude = locations.first?.coordinate.latitude, let myLongitude = locations.first?.coordinate.longitude, locationManager.monitoredRegions.isEmpty{
-            locationManager.stopUpdatingLocation()
-            displayNearPlacesOnMap(lat: myLatitude, long: myLongitude)
-            
+        let location: CLLocation = locations.last!
+        self.currentLatitude = location.coordinate.latitude
+        self.currentLongitude = location.coordinate.longitude
+        locationManager.stopUpdatingLocation()
+        
+        //перемещение на координаты пользователя и добавление маркеров на карту
+        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
+        
+        displayNearPlacesOnMap(lat: location.coordinate.latitude, long: location.coordinate.longitude) { fetchedResults in
+                if fetchedResults.count >= 4{
+                for i in 0...4{
+                    let position = CLLocationCoordinate2D(latitude: fetchedResults[i].geometry.location.lat, longitude: fetchedResults[i].geometry.location.lng)
+
+                    let marker = GMSMarker(position: position)
+                    marker.title = fetchedResults[i].name
+                    marker.icon = GMSMarker.markerImage(with: .black)
+                    marker.appearAnimation = GMSMarkerAnimation.pop
+                    marker.map = self.mapView
+                    print("\(fetchedResults[i].name)")
+                }
+            }else{
+                for i in 0...fetchedResults.count{
+                    let position = CLLocationCoordinate2D(latitude: fetchedResults[i].geometry.location.lat, longitude: fetchedResults[i].geometry.location.lng)
+
+                    let marker = GMSMarker(position: position)
+                    marker.title = fetchedResults[i].name
+                    marker.icon = GMSMarker.markerImage(with: .black)
+                    marker.appearAnimation = GMSMarkerAnimation.pop
+                    marker.map = self.mapView
+                    print("\(fetchedResults[i].name)")
+                }
+            }
+        }
+        
+        if mapView.isHidden {
+            mapView.isHidden = false
+            mapView.camera = camera
+        } else {
+            mapView.animate(to: camera)
         }
         print("координаты")
     }
