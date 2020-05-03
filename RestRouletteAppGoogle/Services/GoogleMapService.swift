@@ -13,6 +13,7 @@ class GoogleMapService {
     
     private let apiKey = "AIzaSyABeqgF2OIlBixbR7fllMvr5llfsKKAfLU"
     
+    // MARK: запрос места 
     func requestNearPlaces(latitude: Double, longitude: Double, placeType: String, complition: @escaping([Results]) -> Void) {
         
         var markers = [Results]()

@@ -13,42 +13,35 @@ import CoreLocation
 
 class ViewController: UIViewController {
     
+    // MARK: базовые свойства
+    @IBOutlet weak var mapView: GMSMapView!
     private var googleMapService = GoogleMapService()
     private var locationManager = CLLocationManager()
     private var defaultLocation = CLLocation(latitude: 55.751999, longitude: 37.617734)
     private var currentLatitude: CLLocationDegrees?
     private var currentLongitude: CLLocationDegrees?
-    private var mapView: GMSMapView!
+    let bottomMenu = BottoMenu()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // MARK: настройка карты и локации
+        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
+        mapView.camera = camera
+        mapView.isMyLocationEnabled = true
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.delegate = self
+        mapView.isHidden = true
         
         locationManager.delegate = self
         locationManager.distanceFilter = 50
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
-        
-        //создание дефолтной карты
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
-        self.mapView = GMSMapView.map(withFrame: self.view.bounds, camera: camera)
-        
-        //добавление кнопки локации и авторесайзинг карты
-        mapView.isMyLocationEnabled = true
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.settings.myLocationButton = true
-        mapView.delegate = self
-        
-        // добавление карты
-        view.addSubview(mapView)
-        mapView.isHidden = true
-        
-        print("viewdidload")
-        
     }
-   //поисковый запрос /*https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=59.93667,30.315&radius=200&rankby=prominence&sensor=true&key=AIzaSyDH_kKUEidg_Ao77O4s12j1UuYDjAh_Ezc&types=cafe*/
+    //поисковый запрос /*https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=59.93667,30.315&radius=200&rankby=prominence&sensor=true&key=AIzaSyDH_kKUEidg_Ao77O4s12j1UuYDjAh_Ezc&types=cafe*/
     
-    //получение мест по запросу и их передачча
+    // MARK: передача мест
     func displayNearPlacesOnMap(lat: CLLocationDegrees, long: CLLocationDegrees, complition: @escaping ([Results]) -> Void) {
         
         getNearPlaceFromTime(lat: lat, long: long) { fetchedResults in
@@ -56,7 +49,7 @@ class ViewController: UIViewController {
         }
     }
     
-    //получение мест в зависимости от времени
+    // MARK: получение мест в зависимости от времени
     private func getNearPlaceFromTime(lat: Double, long: Double, complition: @escaping ([Results]) -> Void) {
         
         //получение текущего времни
@@ -93,6 +86,7 @@ class ViewController: UIViewController {
         }
     }
 }
+// MARK: экстеншены
 extension ViewController: CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -101,13 +95,18 @@ extension ViewController: CLLocationManagerDelegate{
         self.locationManager.startUpdatingLocation()
     }
     
+    // MARK: получение локации пользователя
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+        
+        //нижнее меню
+        bottomMenu.showBottomMenu(controller: self)
         
         //текущие координаты пользователя
         let location: CLLocation = locations.last!
         self.currentLatitude = location.coordinate.latitude
         self.currentLongitude = location.coordinate.longitude
         locationManager.stopUpdatingLocation()
+        print("location \(location.description)")
         
         //перемещение на координаты пользователя и добавление маркеров на карту
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
@@ -125,9 +124,10 @@ extension ViewController: CLLocationManagerDelegate{
                     print("\(fetchedResults[i].name)")
                 }
             }else{
+                    print(fetchedResults.count)
                 for i in 0...fetchedResults.count{
                     let position = CLLocationCoordinate2D(latitude: fetchedResults[i].geometry.location.lat, longitude: fetchedResults[i].geometry.location.lng)
-
+                    
                     let marker = GMSMarker(position: position)
                     marker.title = fetchedResults[i].name
                     marker.icon = GMSMarker.markerImage(with: .black)
@@ -137,7 +137,6 @@ extension ViewController: CLLocationManagerDelegate{
                 }
             }
         }
-        
         if mapView.isHidden {
             mapView.isHidden = false
             mapView.camera = camera

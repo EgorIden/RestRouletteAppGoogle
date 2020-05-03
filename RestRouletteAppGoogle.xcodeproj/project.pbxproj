@@ -10,18 +10,23 @@
 		0BDC174FBDA3C17004C14A14 /* Pods_RestRouletteAppGoogle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E26807B1510458EFCBCC6A1 /* Pods_RestRouletteAppGoogle.framework */; };
 		74065A762451F97E00D9EFFC /* GoogleMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74065A752451F97E00D9EFFC /* GoogleMapService.swift */; };
 		74065A782452056900D9EFFC /* MarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74065A772452056900D9EFFC /* MarkerModel.swift */; };
+		74245E46245D77D900849439 /* BottoMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74245E45245D77D900849439 /* BottoMenu.swift */; };
+		7452E346245DC53B00B31DD0 /* BottomMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7452E345245DC53B00B31DD0 /* BottomMenuCell.swift */; };
 		746167E5244C7D4200EC1B2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746167E4244C7D4200EC1B2A /* AppDelegate.swift */; };
 		746167E7244C7D4200EC1B2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746167E6244C7D4200EC1B2A /* SceneDelegate.swift */; };
 		746167E9244C7D4200EC1B2A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746167E8244C7D4200EC1B2A /* ViewController.swift */; };
 		746167EC244C7D4200EC1B2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 746167EA244C7D4200EC1B2A /* Main.storyboard */; };
 		746167EE244C7D4500EC1B2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 746167ED244C7D4500EC1B2A /* Assets.xcassets */; };
 		746167F1244C7D4500EC1B2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 746167EF244C7D4500EC1B2A /* LaunchScreen.storyboard */; };
+		74E274C7245EEAC000FFB98B /* MenuCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E274C6245EEAC000FFB98B /* MenuCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3E26807B1510458EFCBCC6A1 /* Pods_RestRouletteAppGoogle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestRouletteAppGoogle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74065A752451F97E00D9EFFC /* GoogleMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapService.swift; sourceTree = "<group>"; };
 		74065A772452056900D9EFFC /* MarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerModel.swift; sourceTree = "<group>"; };
+		74245E45245D77D900849439 /* BottoMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottoMenu.swift; sourceTree = "<group>"; };
+		7452E345245DC53B00B31DD0 /* BottomMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuCell.swift; sourceTree = "<group>"; };
 		746167E1244C7D4200EC1B2A /* RestRouletteAppGoogle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestRouletteAppGoogle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		746167E4244C7D4200EC1B2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		746167E6244C7D4200EC1B2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -30,6 +35,7 @@
 		746167ED244C7D4500EC1B2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		746167F0244C7D4500EC1B2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		746167F2244C7D4500EC1B2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74E274C6245EEAC000FFB98B /* MenuCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCategory.swift; sourceTree = "<group>"; };
 		8EE8E6FB5B54F5BC407BB668 /* Pods-RestRouletteAppGoogle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestRouletteAppGoogle.release.xcconfig"; path = "Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle.release.xcconfig"; sourceTree = "<group>"; };
 		EC95CFB30052951CE0220456 /* Pods-RestRouletteAppGoogle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestRouletteAppGoogle.debug.xcconfig"; path = "Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,7 +95,7 @@
 				747117F02454A9E600A1BCBE /* Models */,
 				747117EF2454A9CD00A1BCBE /* Controllers */,
 				747117F12454A9F800A1BCBE /* Services */,
-				746167EA244C7D4200EC1B2A /* Main.storyboard */,
+				74DB83F6245C3941001E8911 /* VIiew */,
 				746167ED244C7D4500EC1B2A /* Assets.xcassets */,
 				746167EF244C7D4500EC1B2A /* LaunchScreen.storyboard */,
 				746167F2244C7D4500EC1B2A /* Info.plist */,
@@ -109,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				74065A772452056900D9EFFC /* MarkerModel.swift */,
+				74E274C6245EEAC000FFB98B /* MenuCategory.swift */,
+				7452E345245DC53B00B31DD0 /* BottomMenuCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -117,8 +125,17 @@
 			isa = PBXGroup;
 			children = (
 				74065A752451F97E00D9EFFC /* GoogleMapService.swift */,
+				74245E45245D77D900849439 /* BottoMenu.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		74DB83F6245C3941001E8911 /* VIiew */ = {
+			isa = PBXGroup;
+			children = (
+				746167EA244C7D4200EC1B2A /* Main.storyboard */,
+			);
+			path = VIiew;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +253,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E274C7245EEAC000FFB98B /* MenuCategory.swift in Sources */,
 				746167E9244C7D4200EC1B2A /* ViewController.swift in Sources */,
+				74245E46245D77D900849439 /* BottoMenu.swift in Sources */,
+				7452E346245DC53B00B31DD0 /* BottomMenuCell.swift in Sources */,
 				74065A782452056900D9EFFC /* MarkerModel.swift in Sources */,
 				74065A762451F97E00D9EFFC /* GoogleMapService.swift in Sources */,
 				746167E5244C7D4200EC1B2A /* AppDelegate.swift in Sources */,
