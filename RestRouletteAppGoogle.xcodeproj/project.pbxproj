@@ -18,6 +18,7 @@
 		746167EC244C7D4200EC1B2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 746167EA244C7D4200EC1B2A /* Main.storyboard */; };
 		746167EE244C7D4500EC1B2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 746167ED244C7D4500EC1B2A /* Assets.xcassets */; };
 		746167F1244C7D4500EC1B2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 746167EF244C7D4500EC1B2A /* LaunchScreen.storyboard */; };
+		7471D37E24605AFF00C8079D /* PopUpMarkersInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7471D37D24605AFF00C8079D /* PopUpMarkersInformation.swift */; };
 		74E274C7245EEAC000FFB98B /* MenuCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E274C6245EEAC000FFB98B /* MenuCategory.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		746167ED244C7D4500EC1B2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		746167F0244C7D4500EC1B2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		746167F2244C7D4500EC1B2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7471D37D24605AFF00C8079D /* PopUpMarkersInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpMarkersInformation.swift; sourceTree = "<group>"; };
 		74E274C6245EEAC000FFB98B /* MenuCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCategory.swift; sourceTree = "<group>"; };
 		8EE8E6FB5B54F5BC407BB668 /* Pods-RestRouletteAppGoogle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestRouletteAppGoogle.release.xcconfig"; path = "Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle.release.xcconfig"; sourceTree = "<group>"; };
 		EC95CFB30052951CE0220456 /* Pods-RestRouletteAppGoogle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestRouletteAppGoogle.debug.xcconfig"; path = "Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle.debug.xcconfig"; sourceTree = "<group>"; };
@@ -106,6 +108,8 @@
 		747117EF2454A9CD00A1BCBE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				74245E45245D77D900849439 /* BottoMenu.swift */,
+				7471D37D24605AFF00C8079D /* PopUpMarkersInformation.swift */,
 				746167E8244C7D4200EC1B2A /* ViewController.swift */,
 			);
 			path = Controllers;
@@ -125,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				74065A752451F97E00D9EFFC /* GoogleMapService.swift */,
-				74245E45245D77D900849439 /* BottoMenu.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 				746167DE244C7D4200EC1B2A /* Frameworks */,
 				746167DF244C7D4200EC1B2A /* Resources */,
 				59AB40F8D4510557017A22E5 /* [CP] Copy Pods Resources */,
+				ABEAD70CCEBB0F6F6ADC2666 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -246,6 +250,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		ABEAD70CCEBB0F6F6ADC2666 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RestRouletteAppGoogle/Pods-RestRouletteAppGoogle-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -260,6 +281,7 @@
 				74065A782452056900D9EFFC /* MarkerModel.swift in Sources */,
 				74065A762451F97E00D9EFFC /* GoogleMapService.swift in Sources */,
 				746167E5244C7D4200EC1B2A /* AppDelegate.swift in Sources */,
+				7471D37E24605AFF00C8079D /* PopUpMarkersInformation.swift in Sources */,
 				746167E7244C7D4200EC1B2A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

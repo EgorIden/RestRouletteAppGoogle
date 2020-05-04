@@ -16,7 +16,7 @@ class GoogleMapService {
     // MARK: запрос места 
     func requestNearPlaces(latitude: Double, longitude: Double, placeType: String, complition: @escaping([Results]) -> Void) {
         
-        var markers = [Results]()
+        print("placetype \(placeType)")
         
         let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=600&rankby=prominence&sensor=true&key=\(apiKey)&types=\(placeType)&limit=10"
         
@@ -34,7 +34,8 @@ class GoogleMapService {
                         print(response)
                     return
                 }
-                guard var data = data else{
+                print(httpResponse.statusCode)
+                guard let data = data else{
                     print("Trouble with data")
                     return
                 }
@@ -42,6 +43,7 @@ class GoogleMapService {
                     let decoder = JSONDecoder()
                     let markers = try decoder.decode(Markers.self, from: data)
                     let fetchedResults = markers.results
+                    print("results in google \(fetchedResults.count)")
                     complition(fetchedResults)
                 } catch let parsingError {
                     print("Error", parsingError)

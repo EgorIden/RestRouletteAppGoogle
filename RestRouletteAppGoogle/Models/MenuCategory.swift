@@ -11,10 +11,12 @@ import UIKit
 
 struct MenuCategory {
     let name: String
-    let image: UIImage
+    let image: String
+    let type: String
     
-    init(name: String, imageName: String) {
+    init(name: String, imageName: String, type: String) {
         self.name = name
-        self.image = UIImage(named: imageName)!
+        self.image = imageName
+        self.type = type
     }
 }

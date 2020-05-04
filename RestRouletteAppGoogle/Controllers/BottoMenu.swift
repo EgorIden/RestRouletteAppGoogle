@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class BottoMenu: NSObject{
     
@@ -25,24 +26,28 @@ class BottoMenu: NSObject{
         lbl.text = "Категории поиска"
         lbl.textColor = UIColor.black
         lbl.font = font
+        lbl.alpha = 0.86
         return lbl
     }()
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        layout.itemSize = CGSize(width: 86, height: 110)
+        //layout.itemSize = CGSize(width: 86, height: 94)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.isScrollEnabled = false
         cv.backgroundColor = UIColor.white
         return cv
     }()
     
-    let menuCategory: [MenuCategory] = {
-        return [MenuCategory(name: "Кафе", imageName: "pastry"),
-                MenuCategory(name: "Доставка", imageName: "recipe-book"),
-                MenuCategory(name: "Рестораны", imageName: "daily-specials"),
-                MenuCategory(name: "Бары", imageName: "beer")]
+    let buttonMenuCategory: [MenuCategory] = {
+        return [MenuCategory(name: "Кафе", imageName: "pastry", type: "cafe"),
+                MenuCategory(name: "Доставка", imageName: "recipe-book", type: "meal_delivery"),
+                MenuCategory(name: "Рестораны", imageName: "daily-specials", type: "restaurant"),
+                MenuCategory(name: "Бары", imageName: "beer", type: "bar")]
     }()
+    
+    weak var baseViewController: ViewController?
     
     // MARK: init
     override init() {
@@ -70,7 +75,9 @@ class BottoMenu: NSObject{
         collectionLeftConstraint, collectionTrailingConstraint, collectionBottomConstraint])
     }
     // MARK: отображение меню
-    func showBottomMenu(controller: UIViewController) {
+    func showBottomMenu(controller: ViewController) {
+        
+        baseViewController = controller
         
         let height: CGFloat = 180.0
         let yCoord = controller.view.bounds.height-height
@@ -80,10 +87,10 @@ class BottoMenu: NSObject{
         
         baseView.addSubview(lable)
         baseView.addSubview(collectionView)
+        setupContraints()
         
         controller.view.addSubview(baseView)
         controller.view.bringSubviewToFront(baseView)
-        setupContraints()
     
         UIView.animate(withDuration: 0.2) {
             self.baseView.frame = CGRect(x: 0, y: yCoord, width: self.baseView.frame.width, height: height)
@@ -95,13 +102,24 @@ class BottoMenu: NSObject{
 // MARK: экстеншены
 extension BottoMenu: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        4
+        buttonMenuCategory.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "botomMenuCell", for: indexPath) as! BottomMenuCell
-        cell.menuCategory = menuCategory[indexPath.row]
+        cell.menuCategory = buttonMenuCategory[indexPath.row]
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = CGSize(width: baseView.frame.width/4, height: 90)
+        return size
+    }
+}
+extension BottoMenu: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuCell
+        let placeType = cell.typeOfPlace
+        baseViewController?.placeType = placeType
     }
 }
 extension BottoMenu: UICollectionViewDelegateFlowLayout{

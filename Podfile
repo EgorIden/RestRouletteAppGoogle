@@ -7,5 +7,6 @@ target 'RestRouletteAppGoogle' do
 
   pod 'GooglePlaces'
   pod 'GoogleMaps'
+  pod 'UberRides', '~> 0.9'
 
 end

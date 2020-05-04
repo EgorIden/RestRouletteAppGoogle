@@ -16,6 +16,7 @@ struct Results: Codable {
     var geometry: Geometry
     var icon: String
     var name: String
+    var vicinity: String
 }
 struct Geometry: Codable {
     var location: Location
