@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "beer.png",
+      "filename" : "deliver-food.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "deliver-food@2x.png",
       "scale" : "2x"
     },
     {

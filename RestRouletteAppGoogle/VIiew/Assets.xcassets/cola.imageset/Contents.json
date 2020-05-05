@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "recipe-book.png",
+      "filename" : "cola.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "cola@2x.png",
       "scale" : "2x"
     },
     {

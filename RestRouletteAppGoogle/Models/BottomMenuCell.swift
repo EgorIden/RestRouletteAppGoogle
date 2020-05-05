@@ -27,7 +27,7 @@ class BottomMenuCell: UICollectionViewCell{
     }
     
     var selectedState = UIColor.blue.withAlphaComponent(0.1)
-    var deselectState = UIColor.blue.withAlphaComponent(0.05)
+    var deselectState = UIColor.blue.withAlphaComponent(0.04)
         
     override var isHighlighted: Bool {
         didSet{
@@ -37,14 +37,13 @@ class BottomMenuCell: UICollectionViewCell{
     
     let imageIcon: UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(named: "beer")
         img.contentMode = .scaleAspectFill
         img.sizeToFit()
         return img
     }()
     
     let iconText: UILabel = {
-        let font = UIFont.monospacedSystemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        let font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.medium)
         let lbl = UILabel()
         lbl.font = font
         lbl.text = "Категории"
@@ -74,8 +73,8 @@ class BottomMenuCell: UICollectionViewCell{
         imageIcon.translatesAutoresizingMaskIntoConstraints = false
         iconText.translatesAutoresizingMaskIntoConstraints = false
         
-        imageIcon.heightAnchor.constraint(equalToConstant: 54).isActive = true
-        imageIcon.widthAnchor.constraint(equalToConstant: 54).isActive = true
+//        imageIcon.heightAnchor.constraint(equalToConstant: 54).isActive = true
+//        imageIcon.widthAnchor.constraint(equalToConstant: 54).isActive = true
         
         let imageTopConstraint = NSLayoutConstraint(item: imageIcon, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 8)
         let imageCenterConstraint = NSLayoutConstraint(item: imageIcon, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0)

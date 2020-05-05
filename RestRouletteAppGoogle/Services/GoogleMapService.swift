@@ -41,8 +41,8 @@ class GoogleMapService {
                 }
                 do {
                     let decoder = JSONDecoder()
-                    let markers = try decoder.decode(Markers.self, from: data)
-                    let fetchedResults = markers.results
+                    let places = try decoder.decode(Place.self, from: data)
+                    let fetchedResults = places.results
                     print("results in google \(fetchedResults.count)")
                     complition(fetchedResults)
                 } catch let parsingError {

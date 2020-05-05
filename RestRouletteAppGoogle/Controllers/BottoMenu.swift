@@ -21,19 +21,19 @@ class BottoMenu: NSObject{
     }()
     
     let lable: UILabel = {
-        let font = UIFont.boldSystemFont(ofSize: 20)
+        let font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
         let lbl = UILabel()
         lbl.text = "Категории поиска"
         lbl.textColor = UIColor.black
         lbl.font = font
-        lbl.alpha = 0.86
+        lbl.alpha = 0.76
         return lbl
     }()
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        //layout.itemSize = CGSize(width: 86, height: 94)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 12)
+        layout.minimumInteritemSpacing = 5
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.isScrollEnabled = false
         cv.backgroundColor = UIColor.white
@@ -41,10 +41,10 @@ class BottoMenu: NSObject{
     }()
     
     let buttonMenuCategory: [MenuCategory] = {
-        return [MenuCategory(name: "Кафе", imageName: "pastry", type: "cafe"),
-                MenuCategory(name: "Доставка", imageName: "recipe-book", type: "meal_delivery"),
-                MenuCategory(name: "Рестораны", imageName: "daily-specials", type: "restaurant"),
-                MenuCategory(name: "Бары", imageName: "beer", type: "bar")]
+        return [MenuCategory(name: "Кафе", imageName: "sandwich", type: "cafe"),
+                MenuCategory(name: "Доставка", imageName: "deliver-food", type: "meal_delivery"),
+                MenuCategory(name: "Рестораны", imageName: "barbecue", type: "restaurant"),
+                MenuCategory(name: "Бары", imageName: "cola", type: "bar")]
     }()
     
     weak var baseViewController: ViewController?
@@ -63,8 +63,8 @@ class BottoMenu: NSObject{
         lable.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        let lblTopConstraint = NSLayoutConstraint(item: lable, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
-        let lblLeftConstraint = NSLayoutConstraint(item: lable, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 24)
+        let lblTopConstraint = NSLayoutConstraint(item: lable, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 8)
+        let lblLeftConstraint = NSLayoutConstraint(item: lable, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 12)
         
         let collectionTopConstraint = NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: lable, attribute: .bottom, multiplier: 1.0, constant: 8)
         let collectionLeftConstraint = NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 0)
@@ -79,10 +79,11 @@ class BottoMenu: NSObject{
         
         baseViewController = controller
         
-        let height: CGFloat = 180.0
+        let height: CGFloat = 140.0
         let yCoord = controller.view.bounds.height-height
         
         baseView.frame = CGRect(x: 0, y: controller.view.frame.height, width: controller.view.frame.width, height: height)
+        baseView.dropShadow()
         collectionView.frame = CGRect(x: 0, y: 0, width: baseView.bounds.width, height: baseView.bounds.height)
         
         baseView.addSubview(lable)
@@ -111,7 +112,7 @@ extension BottoMenu: UICollectionViewDataSource{
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: baseView.frame.width/4, height: 90)
+        let size = CGSize(width: baseView.frame.width/4 - 15, height: 90)
         return size
     }
 }

@@ -51,10 +51,13 @@ class ViewController: UIViewController {
                         if fetchedResults.count >= 4{
                         self.mapView.clear()
                         for i in 0...4{
-                            let position = CLLocationCoordinate2D(latitude: fetchedResults[i].geometry.location.lat, longitude: fetchedResults[i].geometry.location.lng)
-                            
+                            let markerData = PlaceMarker(name: fetchedResults[i].name,
+                                                         vicinity: fetchedResults[i].vicinity,
+                                                         location: fetchedResults[i].geometry.location)
+                            let position = CLLocationCoordinate2D(latitude: markerData.location.lat, longitude: markerData.location.lng)
+
                             let marker = GMSMarker(position: position)
-                            marker.title = fetchedResults[i].name
+                            marker.userData = markerData
                             marker.icon = GMSMarker.markerImage(with: .black)
                             marker.appearAnimation = GMSMarkerAnimation.pop
                             marker.map = self.mapView
@@ -148,10 +151,13 @@ extension ViewController: CLLocationManagerDelegate{
             print("results \(fetchedResults.count)")
                 if fetchedResults.count >= 4{
                 for i in 0...4{
-                    let position = CLLocationCoordinate2D(latitude: fetchedResults[i].geometry.location.lat, longitude: fetchedResults[i].geometry.location.lng)
+                    let markerData = PlaceMarker(name: fetchedResults[i].name,
+                                                 vicinity: fetchedResults[i].vicinity,
+                                                 location: fetchedResults[i].geometry.location)
+                    let position = CLLocationCoordinate2D(latitude: markerData.location.lat, longitude: markerData.location.lng)
 
                     let marker = GMSMarker(position: position)
-                    marker.title = fetchedResults[i].name
+                    marker.userData = markerData
                     marker.icon = GMSMarker.markerImage(with: .black)
                     marker.appearAnimation = GMSMarkerAnimation.pop
                     marker.map = self.mapView
@@ -170,7 +176,10 @@ extension ViewController: CLLocationManagerDelegate{
 }
 extension ViewController: GMSMapViewDelegate{
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        popUpMarkersInformation.showPopUpMarkersInformation(controller: self)
+        let tappedMarker = marker.userData as! PlaceMarker
+        let camera = GMSCameraPosition.camera(withLatitude: tappedMarker.location.lat, longitude: tappedMarker.location.lng, zoom: 15)
+        mapView.animate(to: camera)
+        popUpMarkersInformation.showPopUpMarkersInformation(controller: self, tappedMarker: tappedMarker)
         return true
     }
 }

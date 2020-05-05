@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import CoreLocation
+import GoogleMaps
+import UberRides
 
 class PopUpMarkersInformation: NSObject{
     
@@ -21,22 +23,22 @@ class PopUpMarkersInformation: NSObject{
     }()
     
     let namePlace: UILabel = {
-        let font = UIFont.boldSystemFont(ofSize: 20)
+        let font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
         let lbl = UILabel()
         lbl.text = "Название места"
         lbl.textColor = UIColor.black
         lbl.font = font
-        lbl.alpha = 0.86
+        lbl.alpha = 0.76
         return lbl
     }()
     
     let addressPlace: UILabel = {
-        let font = UIFont.systemFont(ofSize: 13)
+        let font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.medium)
         let lbl = UILabel()
         lbl.text = "Адрес"
         lbl.textColor = UIColor.black
         lbl.font = font
-        lbl.alpha = 0.86
+        lbl.alpha = 0.54
         return lbl
     }()
     
@@ -50,7 +52,7 @@ class PopUpMarkersInformation: NSObject{
     
     let closeView: UIImageView = {
         let img = UIImage(named: "close")
-        let close = UIImageView(frame: CGRect(x: 0, y: 0, width: 16, height: 16))
+        let close = UIImageView(frame: .zero)
         close.image = img
         close.isUserInteractionEnabled = true
         return close
@@ -74,30 +76,36 @@ class PopUpMarkersInformation: NSObject{
         button.translatesAutoresizingMaskIntoConstraints = false
         closeView.translatesAutoresizingMaskIntoConstraints = false
         
-        let namePlaceTopConstraint = NSLayoutConstraint(item: namePlace, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
-        let namePlaceLeftConstraint = NSLayoutConstraint(item: namePlace, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 24)
+        let namePlaceTopConstraint = NSLayoutConstraint(item: namePlace, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 8)
+        let namePlaceLeftConstraint = NSLayoutConstraint(item: namePlace, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 12)
         
-        let addressPlaceTopConstraint = NSLayoutConstraint(item: addressPlace, attribute: .top, relatedBy: .equal, toItem: namePlace, attribute: .bottom, multiplier: 1.0, constant: 8)
-        let addressPlaceLeftConstraint = NSLayoutConstraint(item: addressPlace, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 24)
+        let addressPlaceTopConstraint = NSLayoutConstraint(item: addressPlace, attribute: .top, relatedBy: .equal, toItem: namePlace, attribute: .bottom, multiplier: 1.0, constant: 6)
+        let addressPlaceLeftConstraint = NSLayoutConstraint(item: addressPlace, attribute: .leading, relatedBy: .equal, toItem: namePlace, attribute: .leading, multiplier: 1.0, constant: 0)
 
         let buttonTopConstraint = NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: addressPlace, attribute: .bottom, multiplier: 1.0, constant: 24)
         let buttonLeftConstraint = NSLayoutConstraint(item: button, attribute: .leading, relatedBy: .equal, toItem: addressPlace, attribute: .leading, multiplier: 1.0, constant: 0)
 
-        let closeViewTopConstraint = NSLayoutConstraint(item: closeView, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
-        let closeViewRightConstraint = NSLayoutConstraint(item: closeView, attribute: .trailing, relatedBy: .equal, toItem: baseView, attribute: .trailing, multiplier: 1.0, constant: -12)
+        let closeViewTopConstraint = NSLayoutConstraint(item: closeView, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 10)
+        let closeViewRightConstraint = NSLayoutConstraint(item: closeView, attribute: .trailing, relatedBy: .equal, toItem: baseView, attribute: .trailing, multiplier: 1.0, constant: -10)
 
         
         baseView.addConstraints([namePlaceTopConstraint, namePlaceLeftConstraint, addressPlaceTopConstraint, addressPlaceLeftConstraint, buttonTopConstraint, buttonLeftConstraint, closeViewTopConstraint, closeViewRightConstraint])
     }
     // MARK: отображение информации о месте
-    func showPopUpMarkersInformation(controller: ViewController) {
+    func showPopUpMarkersInformation(controller: ViewController, tappedMarker: PlaceMarker) {
         
         baseViewController = controller
         
-        let height: CGFloat = 180.0
+        let height: CGFloat = 140.0
         let yCoord = controller.view.bounds.height-height
         
-        baseView.frame = CGRect(x: 0, y: controller.view.frame.height, width: controller.view.frame.width, height: height)
+        baseView.frame = CGRect(x: 0, y: controller.view.frame.height,
+                                width: controller.view.frame.width,
+                                height: height)
+        //baseView.dropShadow()
+        
+        namePlace.text = tappedMarker.name
+        addressPlace.text = tappedMarker.vicinity
         
         baseView.addSubview(namePlace)
         baseView.addSubview(addressPlace)

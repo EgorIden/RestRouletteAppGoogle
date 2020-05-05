@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct Markers: Codable {
+struct Place: Codable {
     var results: [Results]
 }
 struct Results: Codable {
@@ -24,4 +24,16 @@ struct Geometry: Codable {
 struct Location: Codable {
     var lat: Double
     var lng: Double
+}
+
+struct PlaceMarker {
+    var name: String
+    var vicinity: String
+    var location: Location
+    
+    init(name: String, vicinity: String, location: Location) {
+        self.name = name
+        self.vicinity = vicinity
+        self.location = location
+    }
 }
