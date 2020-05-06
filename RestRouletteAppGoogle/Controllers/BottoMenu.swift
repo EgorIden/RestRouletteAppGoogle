@@ -13,10 +13,13 @@ import CoreLocation
 class BottoMenu: NSObject{
     
     // MARK:  создание базовых элементов
+    weak var baseViewController: ViewController?
+    
     let baseView: UIView = {
         let view = UIView(frame: .zero)
         view.layer.cornerRadius = 10
         view.backgroundColor = UIColor.white
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -26,7 +29,7 @@ class BottoMenu: NSObject{
         lbl.text = "Категории поиска"
         lbl.textColor = UIColor.black
         lbl.font = font
-        lbl.alpha = 0.76
+        lbl.alpha = 0.86
         return lbl
     }()
     
@@ -41,17 +44,16 @@ class BottoMenu: NSObject{
     }()
     
     let buttonMenuCategory: [MenuCategory] = {
-        return [MenuCategory(name: "Кафе", imageName: "sandwich", type: "cafe"),
-                MenuCategory(name: "Доставка", imageName: "deliver-food", type: "meal_delivery"),
-                MenuCategory(name: "Рестораны", imageName: "barbecue", type: "restaurant"),
-                MenuCategory(name: "Бары", imageName: "cola", type: "bar")]
+        return [MenuCategory(name: "Кафе", imageName: "sandwich", type: RequestWord.cafe.rawValue),
+                MenuCategory(name: "Доставка", imageName: "deliver-food", type: RequestWord.meal_delivery.rawValue),
+                MenuCategory(name: "Рестораны", imageName: "barbecue", type: RequestWord.restaurant.rawValue),
+                MenuCategory(name: "Бары", imageName: "cola", type: RequestWord.bar.rawValue)]
     }()
-    
-    weak var baseViewController: ViewController?
     
     // MARK: init
     override init() {
         super.init()
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(BottomMenuCell.self, forCellWithReuseIdentifier: "botomMenuCell")
@@ -63,10 +65,10 @@ class BottoMenu: NSObject{
         lable.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        let lblTopConstraint = NSLayoutConstraint(item: lable, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 8)
+        let lblTopConstraint = NSLayoutConstraint(item: lable, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
         let lblLeftConstraint = NSLayoutConstraint(item: lable, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 12)
         
-        let collectionTopConstraint = NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: lable, attribute: .bottom, multiplier: 1.0, constant: 8)
+        let collectionTopConstraint = NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: lable, attribute: .bottom, multiplier: 1.0, constant: 10)
         let collectionLeftConstraint = NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 0)
         let collectionTrailingConstraint = NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: baseView, attribute: .trailing, multiplier: 1.0, constant: 0)
         let collectionBottomConstraint = NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: baseView, attribute: .bottom, multiplier: 1.0, constant: 0)
@@ -74,17 +76,21 @@ class BottoMenu: NSObject{
         baseView.addConstraints([lblTopConstraint, lblLeftConstraint, collectionTopConstraint,
         collectionLeftConstraint, collectionTrailingConstraint, collectionBottomConstraint])
     }
+    
     // MARK: отображение меню
     func showBottomMenu(controller: ViewController) {
         
         baseViewController = controller
         
-        let height: CGFloat = 140.0
+        let height: CGFloat = 150.0
         let yCoord = controller.view.bounds.height-height
         
-        baseView.frame = CGRect(x: 0, y: controller.view.frame.height, width: controller.view.frame.width, height: height)
+        baseView.frame = CGRect(x: 0, y: controller.view.frame.height,
+                                width: controller.view.frame.width, height: height)
         baseView.dropShadow()
-        collectionView.frame = CGRect(x: 0, y: 0, width: baseView.bounds.width, height: baseView.bounds.height)
+        collectionView.frame = CGRect(x: 0, y: 0,
+                                      width: baseView.bounds.width,
+                                      height: baseView.bounds.height)
         
         baseView.addSubview(lable)
         baseView.addSubview(collectionView)
@@ -112,7 +118,7 @@ extension BottoMenu: UICollectionViewDataSource{
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: baseView.frame.width/4 - 15, height: 90)
+        let size = CGSize(width: baseView.frame.width/4 - 15, height: 80)
         return size
     }
 }

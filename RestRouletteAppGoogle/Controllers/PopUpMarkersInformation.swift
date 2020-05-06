@@ -15,6 +15,8 @@ import UberRides
 class PopUpMarkersInformation: NSObject{
     
     // MARK:  создание базовых элементов
+    weak var baseViewController: ViewController?
+    
     let baseView: UIView = {
         let view = UIView(frame: .zero)
         view.layer.cornerRadius = 10
@@ -28,7 +30,7 @@ class PopUpMarkersInformation: NSObject{
         lbl.text = "Название места"
         lbl.textColor = UIColor.black
         lbl.font = font
-        lbl.alpha = 0.76
+        lbl.alpha = 0.86
         return lbl
     }()
     
@@ -42,12 +44,19 @@ class PopUpMarkersInformation: NSObject{
         return lbl
     }()
     
-    let button: UIButton = {
-        let btn = UIButton()
-        btn.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
-        btn.titleLabel?.text = "Uber"
-        btn.backgroundColor = UIColor.black
-        return btn
+    let uber: UIImageView = {
+        let img = UIImage(named: "uber")
+        let ub = UIImageView(frame: .zero)
+        ub.image = img
+        return ub
+    }()
+    
+    let uberView: UIView = {
+        let view = UIView(frame: .zero)
+        view.layer.cornerRadius = 5
+        view.backgroundColor = UIColor.black
+        view.isUserInteractionEnabled = true
+        return view
     }()
     
     let closeView: UIImageView = {
@@ -58,7 +67,6 @@ class PopUpMarkersInformation: NSObject{
         return close
     }()
     
-    weak var baseViewController: ViewController?
     var currentUserLatitude: CLLocationDegrees?
     var currentUserLongitude: CLLocationDegrees?
     
@@ -73,44 +81,52 @@ class PopUpMarkersInformation: NSObject{
         
         namePlace.translatesAutoresizingMaskIntoConstraints = false
         addressPlace.translatesAutoresizingMaskIntoConstraints = false
-        button.translatesAutoresizingMaskIntoConstraints = false
+        uber.translatesAutoresizingMaskIntoConstraints = false
+        uberView.translatesAutoresizingMaskIntoConstraints = false
         closeView.translatesAutoresizingMaskIntoConstraints = false
         
-        let namePlaceTopConstraint = NSLayoutConstraint(item: namePlace, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 8)
+        uberView.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        uberView.heightAnchor.constraint(equalTo: uber.heightAnchor, multiplier: 1.0).isActive = true
+        
+        let namePlaceTopConstraint = NSLayoutConstraint(item: namePlace, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
         let namePlaceLeftConstraint = NSLayoutConstraint(item: namePlace, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 12)
         
         let addressPlaceTopConstraint = NSLayoutConstraint(item: addressPlace, attribute: .top, relatedBy: .equal, toItem: namePlace, attribute: .bottom, multiplier: 1.0, constant: 6)
         let addressPlaceLeftConstraint = NSLayoutConstraint(item: addressPlace, attribute: .leading, relatedBy: .equal, toItem: namePlace, attribute: .leading, multiplier: 1.0, constant: 0)
+        
+        let uberCenterConstraint = NSLayoutConstraint(item: uber, attribute: .centerX, relatedBy: .equal, toItem: uberView, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let uberCenterYConstraint = NSLayoutConstraint(item: uber, attribute: .centerY, relatedBy: .equal, toItem: uberView, attribute: .centerY, multiplier: 1.0, constant: 0)
+        
+        let uberViewTopConstraint = NSLayoutConstraint(item: uberView, attribute: .top, relatedBy: .equal, toItem: addressPlace, attribute: .bottom, multiplier: 1.0, constant: 16)
+        let uberViewLeftConstraint = NSLayoutConstraint(item: uberView, attribute: .leading, relatedBy: .equal, toItem: addressPlace, attribute: .leading, multiplier: 1.0, constant: 0)
 
-        let buttonTopConstraint = NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: addressPlace, attribute: .bottom, multiplier: 1.0, constant: 24)
-        let buttonLeftConstraint = NSLayoutConstraint(item: button, attribute: .leading, relatedBy: .equal, toItem: addressPlace, attribute: .leading, multiplier: 1.0, constant: 0)
-
-        let closeViewTopConstraint = NSLayoutConstraint(item: closeView, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 10)
-        let closeViewRightConstraint = NSLayoutConstraint(item: closeView, attribute: .trailing, relatedBy: .equal, toItem: baseView, attribute: .trailing, multiplier: 1.0, constant: -10)
+        let closeViewTopConstraint = NSLayoutConstraint(item: closeView, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
+        let closeViewRightConstraint = NSLayoutConstraint(item: closeView, attribute: .trailing, relatedBy: .equal, toItem: baseView, attribute: .trailing, multiplier: 1.0, constant: -12)
 
         
-        baseView.addConstraints([namePlaceTopConstraint, namePlaceLeftConstraint, addressPlaceTopConstraint, addressPlaceLeftConstraint, buttonTopConstraint, buttonLeftConstraint, closeViewTopConstraint, closeViewRightConstraint])
+        baseView.addConstraints([namePlaceTopConstraint, namePlaceLeftConstraint, addressPlaceTopConstraint, addressPlaceLeftConstraint, uberCenterConstraint, uberCenterYConstraint, uberViewTopConstraint, uberViewLeftConstraint, closeViewTopConstraint, closeViewRightConstraint])
     }
+    
     // MARK: отображение информации о месте
     func showPopUpMarkersInformation(controller: ViewController, tappedMarker: PlaceMarker) {
         
         baseViewController = controller
         
-        let height: CGFloat = 140.0
+        let height: CGFloat = 150.0
         let yCoord = controller.view.bounds.height-height
         
         baseView.frame = CGRect(x: 0, y: controller.view.frame.height,
                                 width: controller.view.frame.width,
                                 height: height)
-        //baseView.dropShadow()
         
         namePlace.text = tappedMarker.name
         addressPlace.text = tappedMarker.vicinity
         
         baseView.addSubview(namePlace)
         baseView.addSubview(addressPlace)
+        uberView.addSubview(uber)
+        baseView.addSubview(uberView)
         baseView.addSubview(closeView)
-        baseView.addSubview(button)
         
         setupContraints()
         
@@ -118,18 +134,30 @@ class PopUpMarkersInformation: NSObject{
         controller.view.bringSubviewToFront(baseView)
     
         UIView.animate(withDuration: 0.2) {
-            self.baseView.frame = CGRect(x: 0, y: yCoord, width: self.baseView.frame.width, height: height)
+            self.baseView.frame = CGRect(x: 0, y: yCoord,
+                                         width: self.baseView.frame.width,
+                                         height: height)
         }
         
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissPopUp)))
-        
-        //animatewithduration более плавно потом посмотреть
+        uberView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(uberTap)))
     }
     @objc func dismissPopUp(){
                 UIView.animate(withDuration: 0.15) {
                     self.baseView.frame = CGRect(x: 0, y: (self.baseViewController?.view.bounds.height)!, width: self.baseView.frame.width, height: self.baseView.frame.height)
         }
     }
+    @objc func uberTap(){
+        showTaxiAlert(title: "Uber", text: "Такси успешно заказано")
+    }
     
+    // MARK: алерт
+    func showTaxiAlert(title: String, text: String){
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.baseViewController!.present(alert, animated: true, completion: nil)
+    }
 }
 

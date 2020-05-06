@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import GoogleMaps
 
 class GoogleMapService {
     
@@ -51,5 +52,13 @@ class GoogleMapService {
             }
         }
         task.resume()
+    }
+    
+    func makeMarker(map: GMSMapView, userData: PlaceMarker, position: CLLocationCoordinate2D){
+        let marker = GMSMarker(position: position)
+        marker.userData = userData
+        marker.icon = GMSMarker.markerImage(with: UIColor(red: 185/255.0, green: 225/255.0, blue: 223/255.0, alpha: 1))
+        marker.appearAnimation = GMSMarkerAnimation.pop
+        marker.map = map
     }
 }

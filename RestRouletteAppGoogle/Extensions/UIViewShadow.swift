@@ -14,9 +14,9 @@ extension UIView {
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.24
+        layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: 0, height: -4)
-        layer.shadowRadius = 11
+        layer.shadowRadius = 10
 
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         layer.shouldRasterize = true

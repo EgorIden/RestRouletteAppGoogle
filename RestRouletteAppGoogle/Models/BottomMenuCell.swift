@@ -12,6 +12,7 @@ import UIKit
 class BottomMenuCell: UICollectionViewCell{
     
     var typeOfPlace: String?
+    
     var menuCategory: MenuCategory? {
         didSet{
             if let img = self.menuCategory?.image{
@@ -26,8 +27,8 @@ class BottomMenuCell: UICollectionViewCell{
         }
     }
     
-    var selectedState = UIColor.blue.withAlphaComponent(0.1)
-    var deselectState = UIColor.blue.withAlphaComponent(0.04)
+    var selectedState = UIColor(red: 185/255.0, green: 225/255.0, blue: 223/255.0, alpha: 1)
+    var deselectState = UIColor(red: 185/255.0, green: 225/255.0, blue: 223/255.0, alpha: 0.42)
         
     override var isHighlighted: Bool {
         didSet{
@@ -55,8 +56,8 @@ class BottomMenuCell: UICollectionViewCell{
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.blue.withAlphaComponent(0.05)
-        self.layer.cornerRadius = 6
+        self.backgroundColor = deselectState
+        self.layer.cornerRadius = 14
 
         self.addSubview(imageIcon)
         self.addSubview(iconText)
@@ -73,13 +74,10 @@ class BottomMenuCell: UICollectionViewCell{
         imageIcon.translatesAutoresizingMaskIntoConstraints = false
         iconText.translatesAutoresizingMaskIntoConstraints = false
         
-//        imageIcon.heightAnchor.constraint(equalToConstant: 54).isActive = true
-//        imageIcon.widthAnchor.constraint(equalToConstant: 54).isActive = true
-        
-        let imageTopConstraint = NSLayoutConstraint(item: imageIcon, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 8)
+        let imageTopConstraint = NSLayoutConstraint(item: imageIcon, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 6)
         let imageCenterConstraint = NSLayoutConstraint(item: imageIcon, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0)
         
-        let textTopConstraint = NSLayoutConstraint(item: iconText, attribute: .top, relatedBy: .equal, toItem: imageIcon, attribute: .bottom, multiplier: 1.0, constant: 8)
+        let textTopConstraint = NSLayoutConstraint(item: iconText, attribute: .top, relatedBy: .equal, toItem: imageIcon, attribute: .bottom, multiplier: 1.0, constant: 5)
         let textCenterConstraint = NSLayoutConstraint(item: iconText, attribute: .centerX, relatedBy: .equal, toItem: imageIcon, attribute: .centerX, multiplier: 1.0, constant: 0)
         
         self.addConstraints([imageTopConstraint, imageCenterConstraint, textTopConstraint, textCenterConstraint])
