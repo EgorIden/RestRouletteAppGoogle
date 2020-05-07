@@ -126,7 +126,8 @@ extension BottoMenu: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! BottomMenuCell
         let placeType = cell.typeOfPlace
-        baseViewController?.placeType = placeType
+        //baseViewController?.placeType = placeType
+        baseViewController?.showCategoryMarker(type: placeType)
     }
 }
 extension BottoMenu: UICollectionViewDelegateFlowLayout{

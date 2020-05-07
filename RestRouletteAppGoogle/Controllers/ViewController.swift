@@ -44,35 +44,32 @@ class ViewController: UIViewController {
         
     }
     
-    // MARK: получение места вручную
-    var placeType: String? {
-        didSet{
-            if let type = self.placeType{
-                print(type)
-                getNearPlaceFromTime(lat: self.currentLatitude, long: self.currentLongitude, placeType: type) { fetchedResults in
-                    print("results \(fetchedResults.count)")
-                        if fetchedResults.count >= 4{
-                        self.mapView.clear()
-                        for i in 0...4{
-                            let markerData = PlaceMarker(name: fetchedResults[i].name,
-                                                         vicinity: fetchedResults[i].vicinity,
-                                                         location: fetchedResults[i].geometry.location)
-                            let position = CLLocationCoordinate2D(latitude: markerData.location.lat, longitude: markerData.location.lng)
-                            self.googleMapService.makeMarker(map: self.mapView, userData: markerData, position: position)
-                            print("\(fetchedResults[i].name)")
-                            }
-                        }else{
-                            self.showInformationAlert(title: "Места не найдены", text: "Поблизости нет подходящих мест")
+    // MARK: получение места по тапу
+    
+    func showCategoryMarker(type: String?){
+        if let type = type{
+            print(type)
+            getNearPlaceFromTime(lat: self.currentLatitude, long: self.currentLongitude, placeType: type) { fetchedResults in
+                print("results \(fetchedResults.count)")
+                    if fetchedResults.count >= 4{
+                    self.mapView.clear()
+                    for i in 0...4{
+                        let markerData = PlaceMarker(name: fetchedResults[i].name,
+                                                     vicinity: fetchedResults[i].vicinity,
+                                                     location: fetchedResults[i].geometry.location)
+                        let position = CLLocationCoordinate2D(latitude: markerData.location.lat, longitude: markerData.location.lng)
+                        self.googleMapService.makeMarker(map: self.mapView, userData: markerData, position: position)
+                        print("\(fetchedResults[i].name)")
                         }
+                    }else{
+                        self.showInformationAlert(title: "Места не найдены", text: "Поблизости нет подходящих мест")
                     }
                 }
             }
-        }
-    
-    //поисковый запрос /*https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=59.93667,30.315&radius=200&rankby=prominence&sensor=true&key=AIzaSyDH_kKUEidg_Ao77O4s12j1UuYDjAh_Ezc&types=cafe*/
+    }
     
     // MARK: алерт
-    func showInformationAlert(title: String, text: String){
+    private func showInformationAlert(title: String, text: String){
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: { (action) in
             alert.dismiss(animated: true, completion: nil)
@@ -141,6 +138,8 @@ extension ViewController: CLLocationManagerDelegate{
                     let position = CLLocationCoordinate2D(latitude: markerData.location.lat, longitude: markerData.location.lng)
                     self.googleMapService.makeMarker(map: self.mapView, userData: markerData, position: position)
                 }
+            }else{
+                    self.showInformationAlert(title: "Места не найдены", text: "Воспользуйтесь ручным поиском")
             }
         }
         if mapView.isHidden {
