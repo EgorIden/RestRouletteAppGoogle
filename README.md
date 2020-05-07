@@ -14,5 +14,5 @@
 * [Foursquare API](https://developer.foursquare.com/docs)
 
 # Запуск:
-Выполните pod install в папке проекта
-В Xcode выберите голокацию и симулятор до iphone 11 pro
+* Выполните pod install в папке проекта
+* В Xcode выберите голокацию и симулятор до iphone 11 pro
