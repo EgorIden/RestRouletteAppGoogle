@@ -90,6 +90,7 @@ class PopUpMarkersInformation: NSObject{
         
         let namePlaceTopConstraint = NSLayoutConstraint(item: namePlace, attribute: .top, relatedBy: .equal, toItem: baseView, attribute: .top, multiplier: 1.0, constant: 12)
         let namePlaceLeftConstraint = NSLayoutConstraint(item: namePlace, attribute: .leading, relatedBy: .equal, toItem: baseView, attribute: .leading, multiplier: 1.0, constant: 12)
+        let namePlaceRighttConstraint = NSLayoutConstraint(item: namePlace, attribute: .trailing, relatedBy: .equal, toItem: closeView, attribute: .leading, multiplier: 1.0, constant: 24)
         
         let addressPlaceTopConstraint = NSLayoutConstraint(item: addressPlace, attribute: .top, relatedBy: .equal, toItem: namePlace, attribute: .bottom, multiplier: 1.0, constant: 6)
         let addressPlaceLeftConstraint = NSLayoutConstraint(item: addressPlace, attribute: .leading, relatedBy: .equal, toItem: namePlace, attribute: .leading, multiplier: 1.0, constant: 0)
@@ -104,7 +105,7 @@ class PopUpMarkersInformation: NSObject{
         let closeViewRightConstraint = NSLayoutConstraint(item: closeView, attribute: .trailing, relatedBy: .equal, toItem: baseView, attribute: .trailing, multiplier: 1.0, constant: -12)
 
         
-        baseView.addConstraints([namePlaceTopConstraint, namePlaceLeftConstraint, addressPlaceTopConstraint, addressPlaceLeftConstraint, uberCenterConstraint, uberCenterYConstraint, uberViewTopConstraint, uberViewLeftConstraint, closeViewTopConstraint, closeViewRightConstraint])
+        baseView.addConstraints([namePlaceTopConstraint, namePlaceLeftConstraint, namePlaceRighttConstraint, addressPlaceTopConstraint, addressPlaceLeftConstraint, uberCenterConstraint, uberCenterYConstraint, uberViewTopConstraint, uberViewLeftConstraint, closeViewTopConstraint, closeViewRightConstraint])
     }
     
     // MARK: отображение информации о месте

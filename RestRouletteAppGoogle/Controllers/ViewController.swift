@@ -48,9 +48,7 @@ class ViewController: UIViewController {
     
     func showCategoryMarker(type: String?){
         if let type = type{
-            print(type)
             getNearPlaceFromTime(lat: self.currentLatitude, long: self.currentLongitude, placeType: type) { fetchedResults in
-                print("results \(fetchedResults.count)")
                     if fetchedResults.count >= 4{
                     self.mapView.clear()
                     for i in 0...4{
@@ -84,8 +82,6 @@ class ViewController: UIViewController {
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
-        
-        print("время \(hour)")
         
         if let type = placeType{
             googleMapService.requestNearPlaces(latitude: lat, longitude: long, placeType: type) { fetchedResults in
@@ -128,8 +124,7 @@ extension ViewController: CLLocationManagerDelegate{
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
         
         getNearPlaceFromTime(lat: location.coordinate.latitude, long: location.coordinate.longitude, placeType: nil) { fetchedResults in
-            print("results \(fetchedResults.count)")
-                if fetchedResults.count > 4{
+                if fetchedResults.count >= 4{
                 self.mapView.clear()
                 for i in 0...4{
                     let markerData = PlaceMarker(name: fetchedResults[i].name,
@@ -138,7 +133,7 @@ extension ViewController: CLLocationManagerDelegate{
                     let position = CLLocationCoordinate2D(latitude: markerData.location.lat, longitude: markerData.location.lng)
                     self.googleMapService.makeMarker(map: self.mapView, userData: markerData, position: position)
                 }
-            }else{
+                }else{
                     self.showInformationAlert(title: "Места не найдены", text: "Воспользуйтесь ручным поиском")
             }
         }
@@ -148,7 +143,6 @@ extension ViewController: CLLocationManagerDelegate{
         } else {
             mapView.animate(to: camera)
         }
-        print("координаты")
     }
 }
 extension ViewController: GMSMapViewDelegate{

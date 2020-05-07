@@ -35,7 +35,7 @@ class GoogleMapService {
                         print(response)
                     return
                 }
-                print(httpResponse.statusCode)
+                
                 guard let data = data else{
                     print("Trouble with data")
                     return
