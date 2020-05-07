@@ -1,0 +1,33 @@
+PODS:
+  - GoogleMaps (3.8.0):
+    - GoogleMaps/Maps (= 3.8.0)
+  - GoogleMaps/Base (3.8.0)
+  - GoogleMaps/Maps (3.8.0):
+    - GoogleMaps/Base
+  - GooglePlaces (3.8.0):
+    - GoogleMaps/Base (= 3.8.0)
+  - UberCore (0.13.0)
+  - UberRides (0.13.0):
+    - UberCore
+
+DEPENDENCIES:
+  - GoogleMaps
+  - GooglePlaces
+  - UberRides (~> 0.9)
+
+SPEC REPOS:
+  trunk:
+    - GoogleMaps
+    - GooglePlaces
+    - UberCore
+    - UberRides
+
+SPEC CHECKSUMS:
+  GoogleMaps: 7c8d66d70e4e8c300f43a7219d8fdaad7b325a9a
+  GooglePlaces: d5f70c3e9e427964fdeca1301a665d276ccd8754
+  UberCore: 27cd75eff06f70c57897fa3dcec1eb015a8c24ad
+  UberRides: 6344d67ed1547b6b66c88f5c15dd659d9028217d
+
+PODFILE CHECKSUM: 0dc82756599f80070e507c8e475e0618979e619c
+
+COCOAPODS: 1.8.4
