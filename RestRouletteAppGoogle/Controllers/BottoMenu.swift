@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreLocation
 
-class BottoMenu: NSObject{
+class BottoMenu: NSObject, UIGestureRecognizerDelegate{
     
     // MARK:  создание базовых элементов
     weak var baseViewController: ViewController?
@@ -106,6 +106,7 @@ class BottoMenu: NSObject{
     }
     
 }
+
 // MARK: экстеншены
 extension BottoMenu: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

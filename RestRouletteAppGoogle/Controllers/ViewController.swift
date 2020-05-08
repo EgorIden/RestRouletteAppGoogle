@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         mapView.isMyLocationEnabled = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
-        mapView.isHidden = true
+        //mapView.isHidden = true
         
         locationManager.delegate = self
         locationManager.distanceFilter = 50
@@ -137,12 +137,12 @@ extension ViewController: CLLocationManagerDelegate{
                     self.showInformationAlert(title: "Места не найдены", text: "Воспользуйтесь ручным поиском")
             }
         }
-        if mapView.isHidden {
-            mapView.isHidden = false
-            mapView.camera = camera
-        } else {
+//        if mapView.isHidden {
+//            mapView.isHidden = false
+//            mapView.camera = camera
+//        } else {
             mapView.animate(to: camera)
-        }
+//        }
     }
 }
 extension ViewController: GMSMapViewDelegate{
